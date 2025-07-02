@@ -1,0 +1,13 @@
+Creating Android project with:
+Project Name: android_frontend
+Package Name: com.example.androidfrontend
+Min SDK: 24
+Target SDK: 34
+Gradle Version: 8.12
+
+Downloading gradle-wrapper.jar...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 45457  100 45457    0     0   170k      0 --:--:-- --:--:-- --:--:--  170k
+Android project pro-processing complete

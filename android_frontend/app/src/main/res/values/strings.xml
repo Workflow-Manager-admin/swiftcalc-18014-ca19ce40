@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">android_frontend</string>
+    <string name="text_clear">C</string>
+    <string name="text_backspace">⌫</string>
+    <string name="text_divide">÷</string>
+    <string name="text_multiply">×</string>
+    <string name="text_minus">−</string>
+    <string name="text_plus">+</string>
+    <string name="text_equals">=</string>
+    <string name="text_dot">.</string>
+    <string name="text_zero">0</string>
+    <string name="text_one">1</string>
+    <string name="text_two">2</string>
+    <string name="text_three">3</string>
+    <string name="text_four">4</string>
+    <string name="text_five">5</string>
+    <string name="text_six">6</string>
+    <string name="text_seven">7</string>
+    <string name="text_eight">8</string>
+    <string name="text_nine">9</string>
+    <string name="hint_history">History</string>
+</resources>

@@ -1,0 +1,30 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:buttonStyle">@style/CalcButton</item>
+    </style>
+
+    <style name="CalcButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:background">@drawable/calc_btn_bg</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="CalcButton.Primary" parent="CalcButton">
+        <item name="android:textColor">@color/primary</item>
+    </style>
+    <style name="CalcButton.Accent" parent="CalcButton">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+    <style name="CalcButton.Secondary" parent="CalcButton">
+        <item name="android:textColor">@color/secondary</item>
+    </style>
+</resources>
