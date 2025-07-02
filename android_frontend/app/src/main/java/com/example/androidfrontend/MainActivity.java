@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         // Clear and backspace
         findViewById(R.id.btn_clear).setOnClickListener(v -> onClearClick());
         findViewById(R.id.btn_back).setOnClickListener(v -> onBackspaceClick());
+
+        // Always show display properly for first launch
+        updateDisplay();
     }
 
     // PUBLIC_INTERFACE
@@ -149,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
         currentInput.setLength(0);
         lastResult = 0.0;
         pendingOperator = "";
-        displayText.setText("0");
         isNewInput = false;
+        updateDisplay(); // Always call updateDisplay, which handles proper display logic
     }
 
     // PUBLIC_INTERFACE
@@ -168,7 +171,12 @@ public class MainActivity extends AppCompatActivity {
         } else if (!TextUtils.isEmpty(pendingOperator)) {
             displayText.setText(formatNumber(lastResult) + " " + pendingOperator);
         } else {
-            displayText.setText(formatNumber(lastResult));
+            // Only display "0" if both lastResult and currentInput are 0/empty
+            if (lastResult == 0.0) {
+                displayText.setText("0");
+            } else {
+                displayText.setText(formatNumber(lastResult));
+            }
         }
     }
 
