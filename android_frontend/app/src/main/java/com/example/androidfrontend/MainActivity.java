@@ -41,15 +41,15 @@ public class MainActivity extends AppCompatActivity {
         // Digit buttons
         int[] digitIds = { R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, R.id.btn_5,
                 R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9 };
+        // Map digits 0-9
         for (int i = 0; i < digitIds.length; ++i) {
-            int digit = i == 0 ? 0 : i; // btn_0 first, then 1-9
             Button btn = findViewById(digitIds[i]);
             btn.setOnClickListener(v -> onDigitClick(((Button) v).getText().toString()));
         }
 
-        // Operation buttons
+        // Operation buttons (ensure the sign matches XML layout)
         findViewById(R.id.btn_plus).setOnClickListener(v -> onOperatorClick("+"));
-        findViewById(R.id.btn_minus).setOnClickListener(v -> onOperatorClick("-"));
+        findViewById(R.id.btn_minus).setOnClickListener(v -> onOperatorClick("−")); // Use unicode minus to match XML; careful on comparison later!
         findViewById(R.id.btn_multiply).setOnClickListener(v -> onOperatorClick("×"));
         findViewById(R.id.btn_divide).setOnClickListener(v -> onOperatorClick("÷"));
 
@@ -101,14 +101,18 @@ public class MainActivity extends AppCompatActivity {
     private void onOperatorClick(String operator) {
         if (currentInput.length() > 0) {
             if (!TextUtils.isEmpty(pendingOperator)) {
-                // Chain calculations
                 onEqualsClick();
             } else {
                 lastResult = parseInput();
             }
             currentInput.setLength(0);
         }
-        pendingOperator = operator;
+        // Always store operator in normalized form for logic ("-")
+        if (operator.equals("−")) {
+            pendingOperator = "-";
+        } else {
+            pendingOperator = operator;
+        }
         isNewInput = false;
         updateDisplay();
     }
@@ -119,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(pendingOperator)) return;
         double input = parseInput();
         double result = lastResult;
-        String expression = formatNumber(lastResult) + " " + pendingOperator + " " + formatNumber(input);
+        // Human-friendly display matches UI, but logic must match actual sign
+        String opDisplay = pendingOperator.equals("-") ? "−" : pendingOperator;
+        String expression = formatNumber(lastResult) + " " + opDisplay + " " + formatNumber(input);
         switch (pendingOperator) {
             case "+": result += input; break;
             case "-": result -= input; break;
@@ -135,9 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Optional: Add to history
         history.add(expression + " = " + resultStr);
-        if (history.size() > 3) history.remove(0); // Keep latest 3
+        if (history.size() > 3) history.remove(0);
 
-        // Update UI state
         lastResult = result;
         displayText.setText(resultStr);
         showHistory();
@@ -161,7 +166,12 @@ public class MainActivity extends AppCompatActivity {
     private void onBackspaceClick() {
         if (isNewInput || currentInput.length() == 0) return;
         currentInput.deleteCharAt(currentInput.length() - 1);
-        updateDisplay();
+        // If deletion leaves empty, display should be "0"
+        if (currentInput.length() == 0) {
+            updateDisplay();
+        } else {
+            displayText.setText(currentInput.toString());
+        }
     }
 
     /** Update the calculator number display */
@@ -169,10 +179,11 @@ public class MainActivity extends AppCompatActivity {
         if (currentInput.length() > 0) {
             displayText.setText(currentInput.toString());
         } else if (!TextUtils.isEmpty(pendingOperator)) {
-            displayText.setText(formatNumber(lastResult) + " " + pendingOperator);
+            // Provide the appropriate sign for display ("−" for minus)
+            String opDisp = pendingOperator.equals("-") ? "−" : pendingOperator;
+            displayText.setText(formatNumber(lastResult) + " " + opDisp);
         } else {
-            // Only display "0" if both lastResult and currentInput are 0/empty
-            if (lastResult == 0.0) {
+            if (lastResult == 0.0 && currentInput.length() == 0) {
                 displayText.setText("0");
             } else {
                 displayText.setText(formatNumber(lastResult));
